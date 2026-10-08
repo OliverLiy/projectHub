@@ -1,7 +1,7 @@
 /** 工作台客户端入口：向 Desktop 注册业务面板。 */
 import React from 'react'
 import { ConsoleView, ProjectConsole } from './panel.js'
-const REPOSITORY = 'https://github.com/ly/dsh-workbench-project-console'
+const REPOSITORY = 'https://github.com/OliverLiy/projectHub'
 
 export function apply(ctx) {
   ctx.effect(() => ctx.desktopWorkbenches.register({
