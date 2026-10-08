@@ -3,7 +3,7 @@
 - 环境：macOS 26（arm64）· DSH Desktop **0.11.0** · Harness `web` profile · `$DSH_HOME=$DSH_HOME`
 - 包：`dsh-workbench-project-console@1.0.0`，产物 `dsh-workbench-project-console-1.0.0.tgz`
 - 界面：左侧嵌入式业务面板（`embedded: true` + `businessSide: 'left'` + 宽度 0.68），顶栏 / 模块导航 / KPI / 按模块分区的看板 / 详情抽屉
-- 工作台身份：`ly/dsh-workbench-project-console`（`register({ repository })` 解析而来，仅本地占位，未发布到 GitHub）
+- 工作台身份：`OliverLiy/projectHub`（`register({ repository })` 解析而来，公开仓库 https://github.com/OliverLiy/projectHub）
 
 ## 包与加载
 
@@ -67,7 +67,7 @@
 | 服务端入口加载成功 | ✅ | `GET /api/project-console/meta` → 200，`{"plugin":"dsh-workbench-project-console","root":".../harness/project-console","revision":0,"projectCount":0}` |
 | 读写接口可用 | ✅ | `POST /api/project-console/state` → `{"revision":1,"projectCount":5}`，`GET` 原样读回；`state.json` 落在 `$DSH_HOME/project-console/` |
 | 左侧入口 + 实际打开 | ✅ | 模式切换器选择「项目总控台」后面板可见（`aside.dshWbBusiness` 可见、`data-side=left`、`data-embedded=true`） |
-| 工作台已被添加/固定 | ✅ | Desktop 状态 `added`/`pinned` 含 `ly/dsh-workbench-project-console`；宿主状态里已有绑定到本工作台的会话 |
+| 工作台已被添加/固定 | ✅ | Desktop 状态 `added`/`pinned` 含 `OliverLiy/projectHub`；宿主状态里已有绑定到本工作台的会话 |
 | 面板已挂载 | ✅ | 面板 DOM 常驻，切到本工作台即显示（不再出现「读取失败」） |
 
 ## 新版界面实测（真实 Harness 页面 + 真实接口 + 真实数据）
@@ -125,19 +125,16 @@
 
 截图：`.verify/ui5-01-ai-open.png`、`ui5-03-ai-preview.png`、`ui5-04-ai-applied.png`、`ui5-05-ai-undone.png`、`ui5-06-ai-query.png`
 
-### 未验证：真实模型调用
+### 真实模型调用（已实测）
 
-运行中的 Harness 仍是重启前加载的服务端模块（Cordis loader 按 specifier 缓存模块，改 `main`／卸载重装
-都拿不到新模块），所以 `/api/project-console/ai` 目前是 404，**真实模型调用还没跑过**。
-客户端模块会被重新读取，所以「AI 填充」按钮和弹窗现在就能用，点「解析」会提示需要重启。
-重启 Harness 后可用下面这条命令确认真实链路：
+Harness 重启后 `/api/project-console/ai` 加载成功，用真实模型跑通：
 
-```bash
-curl -s -b <harness cookie> -X POST -H 'Content-Type: application/json' \
-  -d '{"instruction":"这周要交付什么？","projects":[],"today":"2026-10-08"}' \
-  http://127.0.0.1:43129/api/project-console/ai
-# 期望 source=llm、model=deepseek-official/deepseek-flash、plan.intent=query
-```
+| 输入 | 结果 |
+|---|---|
+| 空项目列表 + 「这周要交付什么？」 | `source: llm`、`model: deepseek-official/deepseek-flash`、1.63s、`intent: query`，回答正确指出列表为空 |
+| 13 个真实项目 + 「把订单结算服务重构的 DDL 改到下周五，进度调到 80%，再加一条待跟进：补压测报告」 | `source: llm`、2.41s、`intent: update`；`下周五` → `2026-10-16`；按名字匹配到 `demo-company-1`；产出 2 条规范化动作（update + addTodo），`issues` 为空 |
+
+未在真实模型上验证的部分：模型返回非法 JSON、超时、配额不足这些降级路径（由 `test/server.test.js` 的桩覆盖）。
 
 ## 多维度看板与日历看板实测（同一 Harness、真实接口、12 个示例项目）
 

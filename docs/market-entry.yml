@@ -1,0 +1,12 @@
+url: https://github.com/OliverLiy/projectHub
+name: 项目总控台
+category: productivity
+description:
+  zh: 把同时在跑的多个项目按模块集中管理：状态、进度、待跟进与 DDL 风险一屏看完，内置概览、模块看板、状态看板、列表、日历、时间线、待跟进六个看板维度，并支持用自然语言增删改查项目——增删改先生成可读的变更清单，确认后才写入，且可一步撤销。
+  en: Manage multiple parallel projects by module, with status, progress, follow-ups and deadline risk in one view. Includes overview, module board, status board, list, calendar, timeline and follow-up dashboards, plus natural-language create/update/delete/query that always previews a readable change list for confirmation before writing, with one-step undo.
+screenshots:
+  - https://raw.githubusercontent.com/OliverLiy/projectHub/master/docs/images/overview.png
+  - https://raw.githubusercontent.com/OliverLiy/projectHub/master/docs/images/kanban.png
+  - https://raw.githubusercontent.com/OliverLiy/projectHub/master/docs/images/calendar.png
+  - https://raw.githubusercontent.com/OliverLiy/projectHub/master/docs/images/timeline.png
+  - https://raw.githubusercontent.com/OliverLiy/projectHub/master/docs/images/ai-fill.png
