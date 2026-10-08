@@ -1,0 +1,50 @@
+{
+  "name": "dsh-workbench-project-console",
+  "version": "1.0.0",
+  "private": true,
+  "description": "多项目总控台：按模块总览所有项目的状态、进展、待跟进事项与 DDL 时间风险。",
+  "type": "module",
+  "license": "MIT",
+  "author": "LY",
+  "main": "./dsh/server.js",
+  "exports": {
+    ".": "./dsh/server.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "dsh/",
+    "lib/",
+    "src/shared/",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build-client.mjs",
+    "test": "node --test test/*.test.js",
+    "check": "node scripts/check-workbench-package.mjs",
+    "verify": "node scripts/build-client.mjs && node --test test/*.test.js && node scripts/check-workbench-package.mjs",
+    "pack:local": "pnpm pack"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.0-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.4"
+  },
+  "devDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "dsh-desktop-workbenches"
+      ]
+    }
+  }
+}

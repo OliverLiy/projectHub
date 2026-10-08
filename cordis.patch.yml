@@ -1,0 +1,7 @@
+# 多项目总控台（dsh-workbench-project-console）
+# 把服务端入口插入 Harness 插件树；数据目录放在 DSH 数据目录下，卸载工作台不会删除它。
+- insert:
+    - id: project-console
+      name: dsh-workbench-project-console
+      config:
+        root: !!js dshHomePath('project-console')
