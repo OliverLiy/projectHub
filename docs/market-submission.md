@@ -29,9 +29,9 @@
 
 实际检查结果：
 
-- 在本机对 market 仓库 `786b775` 执行 `npm run validate`：`目录数据有效：11 个工作台`（含本条目），example 与 Schema 一致。
+- 在本机对 market 仓库 `5805c46`（提交时的 main HEAD）执行 `npm run validate`：`目录数据有效：10 个工作台`（含本条目），example 与 Schema 一致。
 - `npm run check`：58 个测试全部通过（0 fail）。
-- `node scripts/validate-pr.mjs 786b775 HEAD`：`PR 类型：submission`（改动范围只新增一份工作台 YAML）。
+- `node scripts/validate-pr.mjs 5805c46 HEAD`：`PR 类型：submission`（改动范围只新增一份工作台 YAML）。
 - 用 market 仓库自己的 `validatePackage()` 校验本工作台 `package.json`：通过，客户端入口 `./lib/client.js`、bundle patch `./cordis.patch.yml`。
 - 5 张截图为 2882×1960 的合法 PNG（248–400 KiB，均在 2 MiB 与 16 MiPixel 限制内），已放在源仓库 `docs/images/`。
 - 本机网络无法访问 `raw.githubusercontent.com`，因此**没有在本地跑通联网探针**；截图与三个关键文件的存在性与内容已通过 GitHub API 逐项核对（`package.json`、`cordis.patch.yml`、`lib/client.js`、`docs/images/*.png` 均在默认分支 `master` 上可读取）。真正的来源与图片探测以本仓库 CI 结果为准。
