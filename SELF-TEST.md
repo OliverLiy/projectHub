@@ -1,7 +1,7 @@
 # 本机自测记录（规范第 8 节）
 
 - 环境：macOS 26（arm64）· DSH Desktop **0.11.0** · Harness `web` profile · `$DSH_HOME=$DSH_HOME`
-- 包：`dsh-workbench-project-console@1.0.0`，产物 `dsh-workbench-project-console-1.0.0.tgz`
+- 包：`dsh-workbench-project-console@1.0.1`，产物 `dsh-workbench-project-console-1.0.1.tgz`（1.0.0 为首次投稿版本，1.0.1 只改版本号作为更新路标）
 - 界面：左侧嵌入式业务面板（`embedded: true` + `businessSide: 'left'` + 宽度 0.68），顶栏 / 模块导航 / KPI / 按模块分区的看板 / 详情抽屉
 - 工作台身份：`OliverLiy/projectHub`（`register({ repository })` 解析而来，公开仓库 https://github.com/OliverLiy/projectHub）
 
@@ -13,7 +13,7 @@
 | `pnpm pack` 后用 `tar -tzf` 核对内容 | ✅ | 产物含 `package/package.json`、`package/dsh/server.js`、`package/dsh/store.js`、`package/lib/client.js`、`package/cordis.patch.yml`、`README.md`、`LICENSE`（24 KB，无敏感文件） |
 | 从该产物安装（而非源码启动） | ✅ | `dsh plugin --profile web add <abs>/dsh-workbench-project-console-1.0.0.tgz` → exit 0；文件落在 `profiles/web/node_modules/dsh-workbench-project-console/` |
 | 配置层：`--dump-config` 找到本包插件层 | ✅ | `# == dsh-workbench-project-console` / `- id: project-console` / `name: dsh-workbench-project-console` / `config.root: !!js dshHomePath('project-console')` / `__dshPluginOwner.workbench: true` |
-| 已安装列表：Desktop「工作台管理／已安装的工作台」找到条目 | ✅ | 真实 Harness 页面截图 `.verify/installed-list.png`：卡片「项目总控台」+「本地」徽标 + 分类「项目管理」+ v1.0.0 + 启用开关 + 卸载 |
+| 已安装列表：Desktop「工作台管理／已安装的工作台」找到条目 | ✅ | 真实 Harness 页面截图 `.verify/installed-list.png`：卡片「项目总控台」+「本地」徽标 + 分类「项目管理」+ 版本号 + 启用开关（该截图拍摄时为 v1.0.0） + 卸载 |
 | 左侧入口 + 实际打开业务面板 | ✅（面板已挂载、可打开、可操作） | `.verify/ui-01-mode-menu.png`（模式切换器菜单里有「📋 项目总控台」）、`.verify/ui-02-overview.png`（面板停靠右侧并渲染总览） |
 
 ## 第 4 节：界面边界
@@ -237,7 +237,7 @@ Harness 重启后 `/api/project-console/ai` 加载成功，用真实模型跑通
 cd <repo>
 pnpm verify                                   # build + 59 个测试 + 包格式校验
 pnpm pack                                     # 产出 tarball
-node scripts/check-workbench-package.mjs --tarball dsh-workbench-project-console-1.0.0.tgz
+node scripts/check-workbench-package.mjs --tarball dsh-workbench-project-console-1.0.1.tgz
 
 # 服务端接口探活（需要 Harness 的认证 cookie）
 curl -s -b <harness cookie> http://127.0.0.1:43129/api/project-console/meta

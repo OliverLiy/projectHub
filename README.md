@@ -80,6 +80,18 @@
 > 改了服务端入口后需要重启 Harness（应用菜单 **Harness → 重启** / <kbd>⌘⇧R</kbd>）；
 > 重启前点「解析」会提示「服务端还没加载 AI 解析接口」。
 
+## 发布新版本
+
+市场条目用的是固定地址 `https://github.com/OliverLiy/projectHub/releases/latest/download/dsh-workbench-project-console.tgz`，
+所以发版不需要再提目录 PR：
+
+1. 改 `package.json` 的 `version`（完整 SemVer）；
+2. `pnpm verify && pnpm pack`；
+3. 在 GitHub 建一个新 Release，把包**改成固定文件名** `dsh-workbench-project-console.tgz` 上传（文件名不带版本号）；
+4. 市场每天重建一次索引，会自动读到新版本号与新的校验值。
+
+目录里不写版本号 —— 版本由包内的 `package.json` 决定，市场探测时读取。
+
 ## 数据放在哪
 
 项目数据存在 DSH 数据目录下：
@@ -113,8 +125,8 @@ $DSH_HOME/project-console/state.json
 包已按规范打成 tarball，用当前 Desktop 支持的插件安装方式装入 `web` profile：
 
 ```bash
-pnpm pack                      # 产出 dsh-workbench-project-console-1.0.0.tgz
-dsh plugin --profile web add "$PWD/dsh-workbench-project-console-1.0.0.tgz"
+pnpm pack                      # 产出 dsh-workbench-project-console-1.0.1.tgz
+dsh plugin --profile web add "$PWD/dsh-workbench-project-console-1.0.1.tgz"
 ```
 
 `dsh plugin` 会把包装进 profile 并把 `dsh.profile.bundles` 里加上本包，所以它会被当作
