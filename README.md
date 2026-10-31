@@ -120,13 +120,26 @@ $DSH_HOME/project-console/state.json
 | 正常 | 其余进行中的项目 |
 | 已完成 | 状态为「已完成」 |
 
+## 宿主依赖声明
+
+`@deepseek-ai/dsh-llm`、`@deepseek-ai/cordis`、`@deepseek-ai/schemastery` 这一族包由 Desktop 在
+运行时注入宿主版本（`host-module-fallback.mjs` 只对 `@deepseek-ai/*` 的 `ERR_MODULE_NOT_FOUND`
+回落到宿主 bundle），插件自己再装一份就会和宿主抢同一个单例。因此：
+
+- `dsh-llm` 写在 `peerDependencies` + `peerDependenciesMeta.optional`，范围用预发布双分支
+  `>=0.2.0-rc.2 <0.3.0-0 || >=0.2.1-0 <0.3.0-0`（只写 `^0.2.0` 在 rc 版本上会 ERESOLVE，
+  宿主当前是 0.2.1-rc.2）；
+- 不要把它放回 `dependencies`：市场的 `dsh-market` 诊断会把「依赖声明了已知共享宿主包」
+  报成 warning，而且一旦真装上就有两份 `dsh-llm`，`BlockAssembler` 等 class 身份分裂；
+- `schemastery` 只是用来构造 Config schema，按常规写在 `dependencies`（包校验脚本也要求声明）。
+
 ## 安装（本机）
 
 包已按规范打成 tarball，用当前 Desktop 支持的插件安装方式装入 `web` profile：
 
 ```bash
-pnpm pack                      # 产出 dsh-workbench-project-console-1.0.1.tgz
-dsh plugin --profile web add "$PWD/dsh-workbench-project-console-1.0.1.tgz"
+pnpm pack                      # 产出 dsh-workbench-project-console-1.0.2.tgz
+dsh plugin --profile web add "$PWD/dsh-workbench-project-console-1.0.2.tgz"
 ```
 
 `dsh plugin` 会把包装进 profile 并把 `dsh.profile.bundles` 里加上本包，所以它会被当作
