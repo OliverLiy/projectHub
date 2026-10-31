@@ -1,7 +1,7 @@
 # 本机自测记录（规范第 8 节）
 
 - 环境：macOS 26（arm64）· DSH Desktop **0.11.0** · Harness `web` profile · `$DSH_HOME=$DSH_HOME`
-- 包：`dsh-workbench-project-console@1.0.1`，产物 `dsh-workbench-project-console-1.0.1.tgz`（1.0.0 为首次投稿版本，1.0.1 只改版本号作为更新路标）
+- 包：`dsh-workbench-project-console@1.0.2`，产物 `dsh-workbench-project-console-1.0.2.tgz`（1.0.0 为首次投稿版本；1.0.1 只改版本号作为更新路标；1.0.2 把 `@deepseek-ai/dsh-llm` 从 dependencies 改为 optional peer，不再遮蔽宿主的单例）
 - 界面：左侧嵌入式业务面板（`embedded: true` + `businessSide: 'left'` + 宽度 0.68），顶栏 / 模块导航 / KPI / 按模块分区的看板 / 详情抽屉
 - 工作台身份：`OliverLiy/projectHub`（`register({ repository })` 解析而来，公开仓库 https://github.com/OliverLiy/projectHub）
 
@@ -235,9 +235,9 @@ Harness 重启后 `/api/project-console/ai` 加载成功，用真实模型跑通
 
 ```bash
 cd <repo>
-pnpm verify                                   # build + 59 个测试 + 包格式校验
+pnpm verify                                   # build + 107 个测试 + 包格式校验
 pnpm pack                                     # 产出 tarball
-node scripts/check-workbench-package.mjs --tarball dsh-workbench-project-console-1.0.1.tgz
+node scripts/check-workbench-package.mjs --tarball dsh-workbench-project-console-1.0.2.tgz
 
 # 服务端接口探活（需要 Harness 的认证 cookie）
 curl -s -b <harness cookie> http://127.0.0.1:43129/api/project-console/meta
